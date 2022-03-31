@@ -31,9 +31,6 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 
-	@JsonIgnore
-	private byte[] salt;
-	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
 	@JsonIgnore
@@ -69,13 +66,5 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public byte[] getSalt() {
-		return salt;
-	}
-
-	public void setSalt(byte[] salt) {
-		this.salt = salt;
 	}
 }

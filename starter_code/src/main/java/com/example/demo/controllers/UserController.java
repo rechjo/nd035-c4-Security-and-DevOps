@@ -49,16 +49,15 @@ public class UserController {
 		User user = new User();
 		user.setUsername(createUserRequest.getUsername());
 		Cart cart = new Cart();
-		cartRepository.save(cart);
-		user.setCart(cart);
+
 		if(createUserRequest.getPassword().length()<7 ||
 				!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())){
 			return ResponseEntity.badRequest().build();
 		}
-		byte[] salt = new byte[16];
-		new SecureRandom().nextBytes(salt);
-		user.setSalt(salt);
-		user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword() + new String(salt)));
+		user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
+
+		user.setCart(cart);
+		cartRepository.save(cart);
 		userRepository.save(user);
 		return ResponseEntity.ok(user);
 	}
