@@ -35,7 +35,7 @@ public class OrderControllerTest {
     }
 
     @Test
-    public void submitOrder() {
+    public void submitOrder_happyPath() {
         when(userRepository.findByUsername("name")).thenReturn(sampleUserWithTwoSampleItemsInCart());
 
         ResponseEntity<UserOrder> response = orderController.submit("name");
@@ -46,6 +46,15 @@ public class OrderControllerTest {
         assertNotNull(order);
         assertEquals("name", order.getUser().getUsername());
         assertEquals(BigDecimal.valueOf(5.00), order.getTotal());
+    }
+
+    @Test
+    public void submitOrder_badPath() {
+        when(userRepository.findByUsername("wrongName")).thenReturn(null);
+
+        ResponseEntity<UserOrder> response = orderController.submit("wrongName");
+        assertNotNull(response);
+        assertEquals(404, response.getStatusCodeValue());
     }
 
     @Test

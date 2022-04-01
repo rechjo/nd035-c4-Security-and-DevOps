@@ -118,6 +118,7 @@ public class CartControllerTest {
     private Optional<Item> sampleItem() {
         Item item = new Item();
         item.setId(4L);
+        item.setName("Flower");
         item.setPrice(BigDecimal.valueOf(2.50));
         return Optional.of(item);
     }

@@ -68,6 +68,17 @@ public class UserControllerTest {
         assertEquals(400, response.getStatusCodeValue());
     }
 
+    @Test
+    public void createUser_badPath_usernameTaken() {
+        when(userRepository.findByUsername("test")).thenReturn(new User());
+
+        CreateUserRequest request = newCreateUserRequest("test", "testPassword", "testPassword");
+
+        ResponseEntity<User> response = userController.createUser(request);
+        assertNotNull(response);
+        assertEquals(400, response.getStatusCodeValue());
+    }
+
     private CreateUserRequest newCreateUserRequest(String name, String password, String confirmPassword) {
         CreateUserRequest request = new CreateUserRequest();
         request.setUsername(name);
